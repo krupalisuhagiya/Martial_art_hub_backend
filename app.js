@@ -26,6 +26,10 @@ app.get("/:folder1/:folder2/:folder3/:imagename", (req, res) => {
 });
 // -------------------------
 
+app.get('/',(req,res) => {
+  return res.send("<h1>This server was running.....</h1>")
+})
+
 // Routes
 const student = require("./routes/student_route");
 const instructor = require("./routes/instructor_route");
