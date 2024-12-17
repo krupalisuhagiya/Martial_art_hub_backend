@@ -48,4 +48,3 @@ mongoose
   .catch((error) => {
     console.log(error);
   });
-//http://localhost:4000/asstes/student/profile_picthur/1733999028276-harrison-steen.jpg
