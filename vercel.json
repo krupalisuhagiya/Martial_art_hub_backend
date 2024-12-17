@@ -11,9 +11,6 @@
         "src": "/api/(.*)",
         "dest": "/app.js"
       }
-    ],
-    "env": {
-      "MO_URL": "@mo_url"
-    }
+    ]
   }
   
