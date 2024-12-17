@@ -26,7 +26,7 @@ app.get("/:folder1/:folder2/:folder3/:imagename", (req, res) => {
 });
 // -------------------------
 
-app.get('/',(req,res) => {
+app.get('/api/',(req,res) => {
   return res.send("<h1>This server was running.....</h1>")
 })
 
