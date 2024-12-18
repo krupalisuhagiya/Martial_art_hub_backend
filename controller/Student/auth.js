@@ -51,14 +51,14 @@ exports.studentSignup = async (req, res, next) => {
 
 exports.studentLogin = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
+    const { email, password } = req.body;
 
-    if (!name || !email || !password) {
+    if (!email || !password) {
       return next(
         new ErrorHandler("All fiedl are requried", StatusCodes.BAD_REQUEST)
       );
     }
-    const student = await Student.findOne({ name, email });
+    const student = await Student.findOne({ email });
     if (!student) {
       return next(new ErrorHandler("Signup first", StatusCodes.NOT_FOUND));
     }
