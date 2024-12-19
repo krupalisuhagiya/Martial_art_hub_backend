@@ -22,15 +22,14 @@ exports.ProfileUpdate = async (req, res, next) => {
       frist_classType,
       private_classType,
       private_session,
+      certifications,
       instructorId,
     } = req.body;
 
     const profile_picture = req.files.profile_picture
       ? req.files.profile_picture[0]
       : [];
-    const certifications = req.files.certifications
-      ? req.files.certifications[0]
-      : [];
+    const idproof = req.files.idproof ? req.files.idproof[0] : [];
 
     if (!instructorId) {
       return next(
@@ -46,7 +45,7 @@ exports.ProfileUpdate = async (req, res, next) => {
     }
 
     let profile;
-    let certifiimage;
+    let idproofimage;
     let statusvalue;
 
     if (profile_picture) {
@@ -58,12 +57,12 @@ exports.ProfileUpdate = async (req, res, next) => {
       //instructor.profile_picture = profile_picture.path.replace(/\\/g, "/");
     }
 
-    if (certifications) {
-      if (instructor.certifications) {
-        DeleteFiles(instructor.certifications);
+    if (idproof) {
+      if (instructor.idproof) {
+        DeleteFiles(instructor.idproof);
       }
 
-      certifiimage = certifications.path.replace(/\\/g, "/");
+      idproofimage = idproof.path.replace(/\\/g, "/");
       //instructor.certifications = certifications.path.replace(/\\/g, "/");
     }
 
@@ -106,7 +105,8 @@ exports.ProfileUpdate = async (req, res, next) => {
         private_classType,
         private_session,
         profile_picture: profile,
-        certifications: certifiimage,
+        certifications,
+        idproof: idproofimage,
         status: statusvalue,
         profile_complete: 100,
       },
@@ -117,7 +117,7 @@ exports.ProfileUpdate = async (req, res, next) => {
       success: true,
       message: "Instructor Profile update succesfully",
       code: StatusCodes.OK,
-      data: updateprofile
+      data: updateprofile,
     });
   } catch (error) {
     console.log(error);
@@ -171,14 +171,14 @@ exports.instructordelete = async (req, res, next) => {
     if (instructor.profile_picture) {
       DeleteFiles(instructor.profile_picture);
     }
-    const deletestudent=await Instructor.findByIdAndDelete(instructorId);
+    const deletestudent = await Instructor.findByIdAndDelete(instructorId);
     return res.status(StatusCodes.OK).json({
-      success:true,
-      message:"Instructor remove successfully",
-      code:StatusCodes.OK,
-      data:deletestudent
-    })
+      success: true,
+      message: "Instructor remove successfully",
+      code: StatusCodes.OK,
+      data: deletestudent,
+    });
   } catch (error) {
-    return(new ErrorHandler(error.message,StatusCodes.INTERNAL_SERVER_ERROR))
+    return new ErrorHandler(error.message, StatusCodes.INTERNAL_SERVER_ERROR);
   }
 };

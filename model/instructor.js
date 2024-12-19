@@ -20,6 +20,10 @@ const Instructor = new Schema(
       type: String,
       required: false,
     },
+    idproof:{
+      type: String,
+      required: false
+    },
     mobile_No: {
       type: Number,
       required: false,

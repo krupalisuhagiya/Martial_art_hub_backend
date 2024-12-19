@@ -18,7 +18,7 @@ router.post("/instructor/login", InstructorLogin);
 //instructor profile
 router.put("/instructor/profile/update",VERYFY_JWT_INSTRUCTOR,uploadFile("asstes/instructor/profile_picture").fields([
     { name: "profile_picture", maxCount: 1 },
-    { name: "certifications", maxCount: 1 },
+    { name: "idproof", maxCount: 1 },
   ]),
   ProfileUpdate
 );
