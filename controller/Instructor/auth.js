@@ -37,7 +37,7 @@ exports.InstructorSignup = async (req, res, next) => {
 
     return res.status(StatusCodes.CREATED).json({
       success: true,
-      message: "Student Signup succesfully",
+      message: "instructor Signup succesfully",
       code: StatusCodes.CREATED,
       data: instructor,
     });
