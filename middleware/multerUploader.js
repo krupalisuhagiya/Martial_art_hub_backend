@@ -11,7 +11,7 @@ module.exports.uploadFile = (folderName) => {
         fs.mkdirSync(path.resolve(folderName), { recursive: true });
         cb(null, folderName);
       },
-
+      
       filename: (req, file, cb) => {
         cb(null, Date.now() + "-" + file.originalname);
       },

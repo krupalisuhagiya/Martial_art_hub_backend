@@ -4,6 +4,7 @@ const ErrorHandler = require("../../middleware/errorHandler");
 const { StatusCodes } = require("http-status-codes");
 const jwt = require("jsonwebtoken");
 const { findById } = require("../../model/student");
+const InstructorSendMail = require("../../util/InstructorEmailService");
 
 exports.InstructorSignup = async (req, res, next) => {
   try {
@@ -22,6 +23,7 @@ exports.InstructorSignup = async (req, res, next) => {
         )
       );
     }
+
     if (password != confirm_password) {
       return next(
         new ErrorHandler("password not match", StatusCodes.NOT_ACCEPTABLE)
@@ -35,6 +37,27 @@ exports.InstructorSignup = async (req, res, next) => {
       profile_complete: 50,
     });
 
+    // await InstructorSendMail({
+    //   to: email,
+    //   subject: "Welcome to signup Martial-art-hub",
+    //   htmlContent: ` <html>
+    //   <body>
+    //    <h1 style:"color:red;">Welcome To over Platform in Martial art hub</h1>
+    //   </body>
+    //   </html>`,
+    // });
+
+    await InstructorSendMail({
+      to: email,
+      subject: "Welcome to signup Martial-art-hub",
+      htmlContent: `
+        <html>
+          <body>
+            <h1 style="color:red;">Welcome To Our Platform in Martial Art Hub</h1>
+          </body>
+        </html>
+      `,
+    });
     return res.status(StatusCodes.CREATED).json({
       success: true,
       message: "instructor Signup succesfully",
@@ -97,16 +120,21 @@ exports.genratetokan = async (req, res, next) => {
   try {
     const { instructorId } = req.body;
     const instructor = await Instructor.findById(instructorId);
-    if (!instructor) {return next(new ErrorHandler("instructor not found",StatusCodes.NOT_FOUND));
+    if (!instructor) {
+      return next(
+        new ErrorHandler("instructor not found", StatusCodes.NOT_FOUND)
+      );
     }
-    const tokangenrate =jwt.sign({
+    const tokangenrate = jwt.sign(
+      {
         email: instructor.email,
         role: instructor.role,
       },
       process.env.JWT_SECARET,
       {
         expiresIn: "1d",
-      });
+      }
+    );
     return res.status(StatusCodes.OK).json({
       success: true,
       message: "Tokan Genrate successfully",

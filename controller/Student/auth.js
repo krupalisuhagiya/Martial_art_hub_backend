@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const ErrorHandler = require("../../middleware/errorHandler");
 const { StatusCodes } = require("http-status-codes");
 const jwt = require("jsonwebtoken");
+const sendMail = require("../../util/EmailService");
 
 exports.studentSignup = async (req, res, next) => {
   try {
@@ -35,6 +36,19 @@ exports.studentSignup = async (req, res, next) => {
       password: hasshpaword,
       profile_complete: 50,
     });
+
+    await sendMail({
+      to: email,
+      subject: "Welcome TO Signup Martial-art-hub",
+      htmlContent: `
+      <html>
+      <body>
+       <h1 style:"color:red;">Welcome To over Platform in Martial art hub ${name}</h1>
+      </body>
+      </html>
+      `,
+    });
+
     return res.status(StatusCodes.CREATED).json({
       success: true,
       message: "Student signup succesfully",
@@ -119,7 +133,6 @@ exports.genrateTokenStudent = async (req, res, next) => {
       data: student,
       Tokengenrate,
     });
-
   } catch (error) {
     return next(
       new ErrorHandler(error.message, StatusCodes.INTERNAL_SERVER_ERROR)
